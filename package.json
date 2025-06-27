@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "homepage": "ahmed-hossain.github.io/research-website",
   "dependencies": {
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.469.0",

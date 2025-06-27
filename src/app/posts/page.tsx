@@ -1,7 +1,6 @@
 // app/blog/page.tsx
 import Link from 'next/link';
 import { getSortedPostsData } from '@/lib/posts';
-import { prefixPath } from "@/lib/prefixPath";
 
 export default function BlogIndexPage() {
   const allPostsData = getSortedPostsData();
@@ -12,7 +11,7 @@ export default function BlogIndexPage() {
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {allPostsData.map(({ id, date, title, excerpt }) => (
           <li key={id} style={{ marginBottom: '2rem' }}>
-            <Link href={prefixPath(`/posts/${id}`)} style={{ textDecoration: 'none' }}>
+            <Link href={`/posts/${id}`} style={{ textDecoration: 'none' }}>
               <h2 style={{ fontSize: '1.5rem', color: '#1a73e8', margin: '0 0 0.5rem 0' }}>{title}</h2>
             </Link>
             <small style={{ color: '#5f6368' }}>{date}</small>
