@@ -1,15 +1,23 @@
 // lib/posts.ts
+// (identical to last version; getAllPostSlugs returns [{ params: { slug } }, …])
+
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { compileMDX } from 'next-mdx-remote/rsc';
-
-// Import your custom components so they can be used in MDX
 import MyCustomComponent from '@/components/MyCustomComponent';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 
-// This function gets all posts and sorts them by date for the blog index page.
+export function getAllPostSlugs() {
+  const fileNames = fs.readdirSync(postsDirectory);
+  return fileNames.map((fileName) => ({
+    params: {
+      slug: fileName.replace(/\.mdx$/, ''),
+    },
+  }));
+}
+
 export function getSortedPostsData() {
   const fileNames = fs.readdirSync(postsDirectory);
   const allPostsData = fileNames.map((fileName) => {
@@ -27,19 +35,6 @@ export function getSortedPostsData() {
   return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-// This function gets all possible slugs (filenames) for static generation.
-export function getAllPostSlugs() {
-  const fileNames = fs.readdirSync(postsDirectory);
-  // Returns an array that looks like:
-  // [ { params: { slug: 'first-post' } }, ... ]
-  return fileNames.map((fileName) => {
-    return {
-      slug: fileName.replace(/\.mdx$/, ''),
-    };
-  });
-}
-
-// This function gets the content for a single post.
 export async function getPostData(slug: string) {
   const fullPath = path.join(postsDirectory, `${slug}.mdx`);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
@@ -47,14 +42,8 @@ export async function getPostData(slug: string) {
 
   const { content: mdxContent } = await compileMDX({
     source: content,
-    // Pass in the components you want to use
-    components: {
-      MyCustomComponent,
-      // You can add other components here, e.g., <Callout />
-    },
-    options: {
-      parseFrontmatter: false,
-    },
+    components: { MyCustomComponent },
+    options: { parseFrontmatter: false },
   });
 
   return {
