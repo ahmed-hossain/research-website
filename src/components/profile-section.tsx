@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { prefixPath } from "@/lib/prefixPath";
 import {
   Github,
   Linkedin,
@@ -24,7 +25,7 @@ export function ProfileSection({ aboutMe }: ProfileSectionProps) {
         <div className="w-1/3 md:w-full flex-shrink-0">
           <div className="relative max-h-[45vh] md:w-[65%] aspect-[3/4]">
             <Image
-              src={aboutMe.imageUrl}
+              src={prefixPath(aboutMe.imageUrl)}
               alt={aboutMe.name}
               fill
               priority
