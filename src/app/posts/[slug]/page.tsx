@@ -25,6 +25,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
     );
   } catch (error) {
     // If a post is not found, return the 404 page
+    console.log(error);
     notFound();
   }
 }
